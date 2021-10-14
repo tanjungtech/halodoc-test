@@ -40,25 +40,19 @@ class Products extends React.Component {
   loadProductList = async (value = null) => {
     try {
       const productListResult = await getProducts(value)
-      if (productListResult && productListResult.data) {
-        this.setState({
-          productList: productListResult.data,
-          productDataType: productListResult.datatype,
-          lastPage: productListResult.lastPage,
-          numOfResults: productListResult.numOfResults,
-          productPage: productListResult.page,
-          isLoading: false
-        })
-      } else {
-        this.setState({
-          errorMessage: NO_DATA,
-          isLoading: false
-        }) 
-      }
+      this.setState({
+        productList: productListResult.data,
+        productDataType: productListResult.datatype,
+        lastPage: productListResult.lastPage,
+        numOfResults: productListResult.numOfResults,
+        productPage: productListResult.page,
+        isLoading: false
+      })
     } catch (e) {
       console.error(e)
       this.setState({
-        errorMessage: NO_DATA
+        errorMessage: NO_DATA,
+        isLoading: false
       })
     }
   }
@@ -98,26 +92,20 @@ class Products extends React.Component {
     })
     try {
       const searchResult = await searchProduct(searchValue)
-      if (searchResult && searchResult.data) {
-        this.setState({
-          productList: searchResult.data,
-          productDataType: searchResult.datatype,
-          lastPage: searchResult.lastPage,
-          numOfResults: searchResult.numOfResults,
-          productPage: searchResult.page,
-          isLoading: false
-        })
-      } else {
-        this.setState({
-          errorMessage: NO_DATA,
-          isLoading: false,
-          productDataType: 'SEARCH QUERY'
-        })
-      }
+      this.setState({
+        productList: searchResult.data,
+        productDataType: searchResult.datatype,
+        lastPage: searchResult.lastPage,
+        numOfResults: searchResult.numOfResults,
+        productPage: searchResult.page,
+        isLoading: false
+      })
     } catch (e) {
       console.error(e)
       this.setState({
-        errorMessage: NO_DATA
+        errorMessage: NO_DATA,
+        isLoading: false,
+        productDataType: 'SEARCH QUERY'
       })
     }
   }
@@ -184,11 +172,5 @@ class Products extends React.Component {
     )
   }
 }
-
-// const mapStateToProps = ({ auth }) => {
-//   return { auth }
-// }
-
-// export default connect(mapStateToProps, null)(Dashboard)
 
 export default Products
